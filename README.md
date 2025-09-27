@@ -12,15 +12,15 @@ Tampilan Responsif: Website yang dapat diakses dengan nyaman di berbagai perangk
 Cerita Komunitas: Bagian khusus yang menampilkan kisah-kisah sukses dan testimoni dari komunitas yang sudah merasakan manfaatnya.
 
 # Teknologi yang Digunakan
-Front-End: [HTML, CSS, JavaScript, React.js, Tailwind CSS]
-Back-End: [Node.js, Express.js, PHP, Laravel]
-Database: [MySQL]
-Versi Kontrol: Git & GitHub
+Front-End: [HTML, CSS, JavaScript, React.js, Tailwind CSS]<br>
+Back-End: [Node.js, Express.js, PHP, Laravel]<br>
+Database: [MySQL]<br>
+Versi Kontrol: Git & GitHub<br>
 
 # Tim Pengembang
-[Ridho Ahmad Irawan] - [Fullstack Web Developer (Pemula bang)]
-[Ian Marsal] - [UI/UX Design & Front-End]
-[Dian Maharani] - [System Analysis & Front-End]
-[Fiki Kurniawan] - [Needs Analysis & Front-End]
-[Risma Dwi Az-zahra] - [Documentation & Presentation]
+[Ridho Ahmad Irawan] - [Fullstack Web Developer (Pemula bang)]<br>
+[Ian Marsal] - [UI/UX Design & Front-End]<br>
+[Dian Maharani] - [System Analysis & Front-End]<br>
+[Fiki Kurniawan] - [Needs Analysis & Front-End]<br>
+[Risma Dwi Az-zahra] - [Documentation & Presentation]<br>
 [Nilam Sari] - [Budget Plan]
