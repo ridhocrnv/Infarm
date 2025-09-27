@@ -1,7 +1,7 @@
 # Website Infarm
 
 ## Tentang Proyek
-Proyek ini bertujuan untuk meredesign website infarm.co.id agar lebih fokus pada edukasi pertanian, khususnya untuk masyarakat dengan lahan terbatas (seperti pekarangan rumah). Website ini akan menjadi platform informasi yang mudah diakses untuk membantu komunitas mencapai tujuan Sustainable Development Goals (SDGs) poin 1 dan 2, yaitu Tanpa Kemiskinan dan Tanpa Kelaparan.
+Proyek ini bertujuan untuk membuat website infarm.com yang fokus pada edukasi pertanian, khususnya untuk masyarakat dengan lahan terbatas (seperti pekarangan rumah). Website ini akan menjadi platform informasi yang mudah diakses untuk membantu komunitas mencapai tujuan Sustainable Development Goals (SDGs) poin 1 dan 2, yaitu Tanpa Kemiskinan dan Tanpa Kelaparan.
 
 Melalui panduan praktis tentang cara menanam, panduan pupuk, dan tips merawat tanaman, kami berharap dapat memberdayakan masyarakat untuk menanam sendiri sumber makanan, sehingga dapat meningkatkan ketahanan pangan dan kesejahteraan keluarga.
 
