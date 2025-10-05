@@ -49,7 +49,7 @@
  */
 -- Create users table
 CREATE TABLE IF NOT EXISTS users (
-    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+    id uuid PRIMARY KEY DEFAULT auth.uid(),
     username text UNIQUE NOT NULL,
     email text UNIQUE NOT NULL,
     password text NOT NULL,
@@ -116,6 +116,10 @@ ALTER TABLE
 CREATE POLICY "Users can read all profiles" ON users FOR
 SELECT
     TO authenticated USING (true);
+
+CREATE POLICY "Users can insert own profile" ON users FOR
+INSERT
+    TO authenticated WITH CHECK (auth.uid() :: text = id :: text);
 
 CREATE POLICY "Users can update own profile" ON users FOR
 UPDATE

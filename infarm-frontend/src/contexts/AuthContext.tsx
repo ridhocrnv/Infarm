@@ -50,19 +50,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             if (authError) return { error: authError };
 
             if (authData.user) {
+                // Insert user profile into our custom users table
                 const { error: userError } = await supabase.from('users').insert({
-                    id: authData.user.id,
+                    id: authData.user.id, // Use the same ID from Supabase Auth
                     email,
                     username,
-                    password: '',
+                    password: '', // Don't store password in custom table
                     role: 'user',
                 });
 
-                if (userError) return { error: userError };
+                if (userError) {
+                    console.error('Error inserting user profile:', userError);
+                    return { error: userError };
+                }
             }
 
             return { error: null };
         } catch (error) {
+            console.error('Signup error:', error);
             return { error: error as Error };
         }
     };
