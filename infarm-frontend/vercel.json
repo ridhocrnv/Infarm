@@ -1,5 +1,0 @@
-{
-    "buildCommand": "cd infarm-frontend && npm install && npm run build",
-    "outputDirectory": "infarm-frontend/dist",
-    "framework": "vite"
-}
