@@ -17,9 +17,13 @@ function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [currentId, setCurrentId] = useState<string | undefined>();
 
-  const handleNavigate = (page: string, id?: string) => {
+  const handleNavigate = (page: string, id?: string | boolean) => {
     setCurrentPage(page);
-    setCurrentId(id);
+    if (typeof id === 'string') {
+      setCurrentId(id);
+    } else {
+      setCurrentId(undefined);
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 

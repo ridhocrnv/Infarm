@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Calendar, User, ArrowRight, Plus, Search } from 'lucide-react';
+import { Calendar, User, ArrowRight, Plus, Search, RefreshCw } from 'lucide-react';
 import { supabase, type Article } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -11,29 +11,59 @@ export default function Articles({ onNavigate }: ArticlesProps) {
     const [articles, setArticles] = useState<Article[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
+    const [refreshing, setRefreshing] = useState(false);
     const { user } = useAuth();
 
     useEffect(() => {
         loadArticles();
     }, []);
 
-    const loadArticles = async () => {
+    // Auto-refresh when coming from create article
+    useEffect(() => {
+        const handleVisibilityChange = () => {
+            if (document.visibilityState === 'visible') {
+                loadArticles(true);
+            }
+        };
+
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+        return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
+    }, []);
+
+    const loadArticles = async (isRefresh = false) => {
         try {
+            if (isRefresh) {
+                setRefreshing(true);
+            } else {
+                setLoading(true);
+            }
+            
             const { data, error } = await supabase
                 .from('articles')
                 .select(`
-          *,
-          author:users(username)
-        `)
+                    *,
+                    author:users(username)
+                `)
                 .order('created_at', { ascending: false });
 
-            if (error) throw error;
+            if (error) {
+                console.error('Error loading articles:', error);
+                throw error;
+            }
+            
             setArticles(data || []);
         } catch (error) {
             console.error('Error loading articles:', error);
+            // Set empty array on error to show empty state
+            setArticles([]);
         } finally {
             setLoading(false);
+            setRefreshing(false);
         }
+    };
+
+    const handleRefresh = () => {
+        loadArticles(true);
     };
 
     const filteredArticles = articles.filter((article) =>
@@ -52,15 +82,25 @@ export default function Articles({ onNavigate }: ArticlesProps) {
                                 Temukan tips, trik, dan informasi terbaru seputar pertanian
                             </p>
                         </div>
-                        {user && (
+                        <div className="flex gap-3">
                             <button
-                                onClick={() => onNavigate('create-article')}
-                                className="flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-semibold"
+                                onClick={handleRefresh}
+                                disabled={refreshing}
+                                className="flex items-center gap-2 px-4 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors font-semibold disabled:opacity-50"
                             >
-                                <Plus className="h-5 w-5" />
-                                <span>Tulis Artikel</span>
+                                <RefreshCw className={`h-5 w-5 ${refreshing ? 'animate-spin' : ''}`} />
+                                <span>{refreshing ? 'Memuat...' : 'Refresh'}</span>
                             </button>
-                        )}
+                            {user && (
+                                <button
+                                    onClick={() => onNavigate('create-article')}
+                                    className="flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-semibold"
+                                >
+                                    <Plus className="h-5 w-5" />
+                                    <span>Tulis Artikel</span>
+                                </button>
+                            )}
+                        </div>
                     </div>
 
                     <div className="mt-8 relative">
@@ -84,6 +124,10 @@ export default function Articles({ onNavigate }: ArticlesProps) {
                                     <div className="h-4 bg-gray-200 rounded w-3/4"></div>
                                     <div className="h-4 bg-gray-200 rounded"></div>
                                     <div className="h-4 bg-gray-200 rounded w-5/6"></div>
+                                    <div className="flex items-center justify-between mt-4">
+                                        <div className="h-3 bg-gray-200 rounded w-20"></div>
+                                        <div className="h-3 bg-gray-200 rounded w-16"></div>
+                                    </div>
                                 </div>
                             </div>
                         ))}

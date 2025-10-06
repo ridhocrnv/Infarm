@@ -4,7 +4,7 @@ import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 
 type CreateArticleProps = {
-    onNavigate: (page: string) => void;
+    onNavigate: (page: string, refresh?: boolean) => void;
 };
 
 export default function CreateArticle({ onNavigate }: CreateArticleProps) {
@@ -36,7 +36,7 @@ export default function CreateArticle({ onNavigate }: CreateArticleProps) {
             if (insertError) throw insertError;
 
             alert('Artikel berhasil dibuat!');
-            onNavigate('articles');
+            onNavigate('articles', true); // Pass refresh flag
         } catch (err) {
             setError('Gagal membuat artikel. Silakan coba lagi.');
             console.error(err);
