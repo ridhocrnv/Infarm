@@ -1,4 +1,4 @@
-import { Sprout, Menu, X, LogIn, LogOut, User } from 'lucide-react';
+import { Sprout, Menu, X, LogIn, LogOut, User, Shield } from 'lucide-react';
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -9,7 +9,7 @@ type NavbarProps = {
 
 export default function Navbar({ onNavigate, currentPage }: NavbarProps) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const { user, signOut } = useAuth();
+    const { user, signOut, isAdmin } = useAuth();
 
     const menuItems = [
         { id: 'home', label: 'Beranda' },
@@ -43,6 +43,15 @@ export default function Navbar({ onNavigate, currentPage }: NavbarProps) {
                         ))}
                         {user ? (
                             <div className="flex items-center gap-4">
+                                {isAdmin && (
+                                    <button
+                                        onClick={() => onNavigate('admin-dashboard')}
+                                        className="flex items-center gap-2 px-3 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+                                    >
+                                        <Shield className="h-4 w-4" />
+                                        <span>Admin</span>
+                                    </button>
+                                )}
                                 <button
                                     onClick={() => onNavigate('profile')}
                                     className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-green-600 transition-colors"
@@ -100,6 +109,18 @@ export default function Navbar({ onNavigate, currentPage }: NavbarProps) {
                         ))}
                         {user ? (
                             <>
+                                {isAdmin && (
+                                    <button
+                                        onClick={() => {
+                                            onNavigate('admin-dashboard');
+                                            setIsMenuOpen(false);
+                                        }}
+                                        className="flex items-center gap-2 w-full px-3 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+                                    >
+                                        <Shield className="h-4 w-4" />
+                                        <span>Admin Dashboard</span>
+                                    </button>
+                                )}
                                 <button
                                     onClick={() => {
                                         onNavigate('profile');

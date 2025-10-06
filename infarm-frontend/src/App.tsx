@@ -11,6 +11,7 @@ import Products from './pages/Products';
 import CreateArticle from './pages/CreateArticle';
 import CreateThread from './pages/CreateThread';
 import CreateProduct from './pages/CreateProduct';
+import AdminDashboard from './pages/AdminDashboard';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -42,6 +43,8 @@ function App() {
         return <CreateThread onNavigate={handleNavigate} />;
       case 'create-product':
         return <CreateProduct onNavigate={handleNavigate} />;
+      case 'admin-dashboard':
+        return <AdminDashboard onNavigate={handleNavigate} />;
       case 'guide-detail':
         return <Guides onNavigate={handleNavigate} />;
       default:
