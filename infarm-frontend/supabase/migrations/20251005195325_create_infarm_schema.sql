@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS users (
     id uuid PRIMARY KEY DEFAULT auth.uid(),
     username text UNIQUE NOT NULL,
     email text UNIQUE NOT NULL,
-    password text NOT NULL,
+    password text DEFAULT '',
     role text DEFAULT 'user' CHECK (role IN ('user', 'admin')),
     created_at timestamptz DEFAULT now()
 );
@@ -119,11 +119,11 @@ SELECT
 
 CREATE POLICY "Users can insert own profile" ON users FOR
 INSERT
-    TO authenticated WITH CHECK (auth.uid() :: text = id :: text);
+    TO authenticated WITH CHECK (auth.uid() = id);
 
 CREATE POLICY "Users can update own profile" ON users FOR
 UPDATE
-    TO authenticated USING (auth.uid() :: text = id :: text) WITH CHECK (auth.uid() :: text = id :: text);
+    TO authenticated USING (auth.uid() = id) WITH CHECK (auth.uid() = id);
 
 -- Articles policies
 CREATE POLICY "Anyone can read articles" ON articles FOR

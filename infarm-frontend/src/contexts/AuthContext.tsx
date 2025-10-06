@@ -42,29 +42,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const signUp = async (email: string, password: string, username: string) => {
         try {
+            console.log('Starting signup process...');
+            
             const { data: authData, error: authError } = await supabase.auth.signUp({
                 email,
                 password,
+                options: {
+                    data: {
+                        username: username
+                    }
+                }
             });
 
-            if (authError) return { error: authError };
-
-            if (authData.user) {
-                // Insert user profile into our custom users table
-                const { error: userError } = await supabase.from('users').insert({
-                    id: authData.user.id, // Use the same ID from Supabase Auth
-                    email,
-                    username,
-                    password: '', // Don't store password in custom table
-                    role: 'user',
-                });
-
-                if (userError) {
-                    console.error('Error inserting user profile:', userError);
-                    return { error: userError };
-                }
+            if (authError) {
+                console.error('Auth signup error:', authError);
+                return { error: authError };
             }
 
+            console.log('Auth signup successful:', authData);
+
+            // The database function will automatically create the user profile
+            // No need to manually insert into users table
+            
             return { error: null };
         } catch (error) {
             console.error('Signup error:', error);
