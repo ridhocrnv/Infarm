@@ -1,26 +1,88 @@
-# Website Infarm
+# InFarm - Website Edukasi Pertanian
 
-## Tentang Proyek
 Proyek ini bertujuan untuk membuat website infarm.com yang fokus pada edukasi pertanian, khususnya untuk masyarakat dengan lahan terbatas (seperti pekarangan rumah). Website ini akan menjadi platform informasi yang mudah diakses untuk membantu komunitas mencapai tujuan Sustainable Development Goals (SDGs) poin 1 dan 2, yaitu Tanpa Kemiskinan dan Tanpa Kelaparan.
 
-Melalui panduan praktis tentang cara menanam, panduan pupuk, dan tips merawat tanaman, kami berharap dapat memberdayakan masyarakat untuk menanam sendiri sumber makanan, sehingga dapat meningkatkan ketahanan pangan dan kesejahteraan keluarga.
+## 🏗️ Struktur Project
 
-# Fitur Utama (Key Features)
-Pencarian Interaktif: Pengguna dapat mencari artikel dan panduan dengan kata kunci yang spesifik (misalnya, "cara tanam cabai", "pupuk alami").
-Panduan Sederhana: Konten visual yang mudah dipahami, termasuk infografis, video, dan tutorial langkah demi langkah.
-Tampilan Responsif: Website yang dapat diakses dengan nyaman di berbagai perangkat, mulai dari desktop hingga smartphone.
-Cerita Komunitas: Bagian khusus yang menampilkan kisah-kisah sukses dan testimoni dari komunitas yang sudah merasakan manfaatnya.
+```
+Website Infarm/
+├── infarm-frontend/          # Frontend React + Vite + TypeScript
+│   ├── src/
+│   ├── public/
+│   ├── package.json
+│   ├── vercel.json          # Vercel deployment config
+│   └── vite.config.js
+├── config/                   # Backend database config
+├── controllers/              # Backend API controllers
+├── middleware/               # Backend middleware
+├── models/                   # Database models
+├── routes/                   # API routes
+├── server.js                 # Backend Express server
+└── package.json              # Backend dependencies
+```
 
-# Teknologi yang Digunakan
-Front-End: [HTML, CSS, JavaScript, React.js, Tailwind CSS]<br>
-Back-End: [Node.js, Express.js, PHP, Laravel]<br>
-Database: [MySQL]<br>
-Versi Kontrol: Git & GitHub<br>
+## 🚀 Deployment
 
-# Tim Pengembang
-[Ridho Ahmad Irawan] - [Fullstack Web Developer (Pemula bang)]<br>
-[Ian Marsal] - [UI/UX Design & Front-End]<br>
-[Dian Maharani] - [System Analysis & Front-End]<br>
-[Fiki Kurniawan] - [Needs Analysis & Front-End]<br>
-[Risma Dwi Az-zahra] - [Documentation & Presentation]<br>
-[Nilam Sari] - [Budget Plan]
+### Frontend (Vercel)
+- **Folder**: `infarm-frontend/`
+- **Framework**: Vite + React + TypeScript
+- **Build Command**: `npm run build`
+- **Output Directory**: `dist`
+
+### Backend (Separate deployment)
+- **File**: `server.js`
+- **Framework**: Express.js + MySQL
+- **Deploy to**: Railway, Render, atau Heroku
+
+## 🔧 Setup Development
+
+### Frontend
+```bash
+cd infarm-frontend
+npm install
+npm run dev
+```
+
+### Backend
+```bash
+npm install
+npm run dev
+```
+
+## 📝 Environment Variables
+
+### Frontend (.env.local)
+```
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+### Backend (.env)
+```
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=password
+DB_NAME=infarm
+PORT=5000
+```
+
+## 🛠️ Tech Stack
+
+### Frontend
+- React 19
+- TypeScript
+- Vite
+- Tailwind CSS
+- Supabase
+- Lucide React
+
+### Backend
+- Node.js
+- Express.js
+- MySQL
+- JWT Authentication
+- Multer (File Upload)
+
+## 📄 License
+
+ISC
