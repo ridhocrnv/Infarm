@@ -61,9 +61,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
             console.log('Auth signup successful:', authData);
 
-            // The database function will automatically create the user profile
-            // No need to manually insert into users table
-            
+            if (authData.user) {
+                // Wait for auth state to be established
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                console.log('Inserting user profile with ID:', authData.user.id);
+                
+                // Insert user profile into our custom users table
+                const { data: insertData, error: userError } = await supabase.from('users').insert({
+                    id: authData.user.id,
+                    email,
+                    username,
+                    password: '',
+                    role: 'user',
+                }).select();
+
+                if (userError) {
+                    console.error('Error inserting user profile:', userError);
+                    // If it's a duplicate key error, the user might already exist
+                    if (userError.code === '23505') {
+                        console.log('User profile already exists, continuing...');
+                        return { error: null };
+                    }
+                    return { error: userError };
+                }
+
+                console.log('User profile inserted successfully:', insertData);
+            }
+
             return { error: null };
         } catch (error) {
             console.error('Signup error:', error);

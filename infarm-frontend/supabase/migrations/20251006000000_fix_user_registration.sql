@@ -1,37 +1,21 @@
--- Fix user registration by creating a database function
--- This function will be called automatically when a user signs up
+-- Fix user registration by simplifying the approach
+-- Remove trigger-based approach and use manual insert with better error handling
 
--- First, let's update the users table to make password nullable
+-- First, let's update the users table to make password nullable and remove DEFAULT
 ALTER TABLE users ALTER COLUMN password DROP NOT NULL;
+ALTER TABLE users ALTER COLUMN id DROP DEFAULT;
 
--- Create a function to handle user profile creation
-CREATE OR REPLACE FUNCTION public.handle_new_user()
-RETURNS trigger AS $$
-BEGIN
-  INSERT INTO public.users (id, email, username, password, role)
-  VALUES (
-    NEW.id,
-    NEW.email,
-    COALESCE(NEW.raw_user_meta_data->>'username', split_part(NEW.email, '@', 1)),
-    '',
-    'user'
-  );
-  RETURN NEW;
-END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
-
--- Create a trigger that calls the function when a new user is created in auth.users
-CREATE OR REPLACE TRIGGER on_auth_user_created
-  AFTER INSERT ON auth.users
-  FOR EACH ROW EXECUTE PROCEDURE public.handle_new_user();
-
--- Update RLS policies to be more permissive for the function
+-- Update RLS policies to allow user profile creation
 DROP POLICY IF EXISTS "Users can insert own profile" ON users;
-CREATE POLICY "Allow user profile creation" ON users FOR
-INSERT
-    TO authenticated WITH CHECK (true);
+DROP POLICY IF EXISTS "Allow user profile creation" ON users;
+DROP POLICY IF EXISTS "Allow function to insert users" ON users;
 
--- Also allow the function to insert (it runs as SECURITY DEFINER)
-CREATE POLICY "Allow function to insert users" ON users FOR
+-- Create a simple policy for user profile creation
+CREATE POLICY "Users can create their own profile" ON users FOR
+INSERT
+    TO authenticated WITH CHECK (auth.uid() = id);
+
+-- Also allow anon users to create profiles (for signup process)
+CREATE POLICY "Allow signup profile creation" ON users FOR
 INSERT
     TO anon WITH CHECK (true);
